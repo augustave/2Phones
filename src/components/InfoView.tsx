@@ -9,12 +9,10 @@ export function InfoView({ data }: { data: GalleryItem }) {
           alt={data.imageAlt}
           className="w-full h-full object-cover"
         />
-        {/* Glass Overlay */}
-        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-white/60 backdrop-blur-lg border-t border-white/40 shadow-xl" />
       </div>
       
       {/* Content over glass */}
-      <div className="relative z-10 p-6 flex-1 flex flex-col justify-end pb-4">
+      <div className="absolute inset-x-0 bottom-0 z-10 p-6 pt-16 pb-4 flex flex-col justify-end bg-gradient-to-t from-white/95 via-white/70 to-transparent backdrop-blur-md">
         <h2 className="text-3xl font-black tracking-tighter text-black uppercase mb-3 drop-shadow-sm">
           {data.title}
         </h2>
