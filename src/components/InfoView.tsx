@@ -1,24 +1,27 @@
-import type { GalleryItem } from "../types/gallery";
+import type { PortfolioItem } from "../types/gallery";
 
-export function InfoView({ data }: { data: GalleryItem }) {
+export function InfoView({ data }: { data: PortfolioItem }) {
   return (
-    <div className="relative flex flex-col h-full bg-white overflow-hidden">
-      <div className="absolute inset-0 w-full h-full">
-        <img
-          src={data.imageSrc}
-          alt={data.imageAlt}
-          className="w-full h-full object-cover"
-        />
-      </div>
-      
-      {/* Content over glass */}
-      <div className="absolute inset-x-0 bottom-0 z-10 p-6 pt-16 pb-4 flex flex-col justify-end bg-gradient-to-t from-white/95 via-white/70 to-transparent backdrop-blur-md">
-        <h2 className="text-3xl font-black tracking-tighter text-black uppercase mb-3 drop-shadow-sm">
-          {data.title}
+    <div className="relative flex flex-col h-full bg-zinc-900 text-white overflow-hidden p-8">
+      <div className="mt-8 mb-6">
+        <h2 className="text-3xl font-black tracking-tighter uppercase text-white drop-shadow-sm mb-4">
+          {data.descriptionTitle}
         </h2>
-        <p className="text-black text-[15px] leading-relaxed">
-          {data.quote}
+        <div className="h-1 w-12 bg-white/20 mb-6 rounded-full" />
+        <p className="text-zinc-300 text-[15px] leading-relaxed mb-8">
+          {data.descriptionText}
         </p>
+      </div>
+
+      <div className="mt-auto">
+        <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3">Technologies</h3>
+        <div className="flex flex-wrap gap-2">
+          {data.technologies.map(tech => (
+            <span key={tech} className="px-3 py-1 bg-white/10 rounded-full text-xs font-medium text-zinc-200 backdrop-blur-sm border border-white/5">
+              {tech}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

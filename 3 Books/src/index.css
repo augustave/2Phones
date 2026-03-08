@@ -1,25 +1,5 @@
 @import "tailwindcss";
 
-@keyframes gradient-xy {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-xy 6s ease infinite;
-}
-
-/* 3 Books CSS */
-@import "tailwindcss";
-
 /* PROJECT PROTOCOL: SLIPCASE_KINEMATICS
   1_project_identity: Physical Occlusion / High-Friction Sliding
   2_motion_physics: Macro (800ms) | Micro (250ms)
