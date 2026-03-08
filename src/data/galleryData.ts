@@ -2,6 +2,15 @@ import type { PortfolioItem } from "../types/gallery";
 
 export const portfolioData: PortfolioItem[] = [
   {
+    id: "3books",
+    projectTitle: "3 Books Archive",
+    leftImageSrc: "/images/3books-thumb.jpg",
+    leftImageAlt: "3 Books Archive Thumbnail",
+    descriptionTitle: "Mechanical 3D Bookshelf",
+    descriptionText: "An archival interface designed around physical affordances. Pull, drag, and examine three distinct volumes in a physics-driven 3D environment with mechanical soundscapes.",
+    technologies: ["React", "SVG Filters", "Web Audio", "Physics"],
+  },
+  {
     id: "project-1",
     projectTitle: "ChipAgents",
     leftImageSrc: "/images/left-art.jpg",
