@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, Book, Smartphone, Box } from "lucide-react";
+import { ChevronLeft, ChevronRight, Book, Smartphone } from "lucide-react";
 import { ArtView } from "./components/ArtView";
 import { InfoView } from "./components/InfoView";
 import { PhoneFrame } from "./components/PhoneFrame";
 import SlipcaseShelf from "./components/SlipcaseShelf";
-import TopologyOfFragility from "./components/TopologyOfFragility";
 import { portfolioData } from "./data/galleryData";
 
-type ViewMode = "bookshelf" | "portfolio" | "topology";
+type ViewMode = "bookshelf" | "portfolio";
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -90,18 +89,6 @@ export default function App() {
           <Smartphone className="w-4 h-4" />
           Digital Showcase
         </button>
-        <button
-          onClick={() => setViewMode("topology")}
-          className={`relative px-6 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 cursor-pointer ${
-            viewMode === "topology" ? "text-black" : "text-white/60 hover:text-white"
-          }`}
-        >
-          {viewMode === "topology" && (
-            <div className="absolute inset-0 bg-white rounded-full -z-10" />
-          )}
-          <Box className="w-4 h-4" />
-          Proteome Landscape
-        </button>
       </div>
 
       {/* View Container */}
@@ -109,11 +96,6 @@ export default function App() {
         {/* Bookshelf View */}
         <div className={`absolute inset-0 transition-all duration-1000 ${viewMode === "bookshelf" ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"}`}>
           <SlipcaseShelf isActive={viewMode === "bookshelf"} />
-        </div>
-
-        {/* Topology View */}
-        <div className={`absolute inset-0 transition-all duration-1000 ${viewMode === "topology" ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"}`}>
-          <TopologyOfFragility />
         </div>
 
         {/* Portfolio View */}
