@@ -3,7 +3,6 @@ import { shelfData } from '../data/shelfData';
 
 // Constants
 const MAX_OPEN = -220;
-const SLIDE_HEIGHT = 380;
 
 export default function SlipcaseShelf() {
     const worldCameraRef = useRef<HTMLDivElement>(null);
@@ -116,7 +115,7 @@ export default function SlipcaseShelf() {
     };
 
     // --- Pagination Logic ---
-    const triggerPagination = (newSlideIndex: number, bookEl: HTMLElement) => {
+    const triggerPagination = (newSlideIndex: number) => {
         dragState.current.isPaginating = true;
         setCurrentSlide(newSlideIndex);
         
@@ -139,12 +138,12 @@ export default function SlipcaseShelf() {
         if (e.deltaY > 30) {
             const nextSlide = Math.min(totalSlides - 1, currentSlide + 1);
             if (nextSlide !== currentSlide) {
-                triggerPagination(nextSlide, activeBookRef.current);
+                triggerPagination(nextSlide);
             }
         } else if (e.deltaY < -30) {
             const prevSlide = Math.max(0, currentSlide - 1);
             if (prevSlide !== currentSlide) {
-                triggerPagination(prevSlide, activeBookRef.current);
+                triggerPagination(prevSlide);
             }
         }
     };
@@ -204,7 +203,7 @@ export default function SlipcaseShelf() {
                 else nextSlide = Math.max(0, currentSlide - 1);
 
                 if (nextSlide !== currentSlide) {
-                    triggerPagination(nextSlide, activeBookRef.current);
+                    triggerPagination(nextSlide);
                     dragState.current.startY = currentY;
                     dragState.current.startX = currentX;
                     dragState.current.initialX = MAX_OPEN;
