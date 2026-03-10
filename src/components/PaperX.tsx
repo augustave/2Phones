@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const metaLeft = [
   'A8 FRONDCONT',
@@ -38,31 +38,41 @@ const footerRight = [
 
 const ROUTE_CYCLE = 6.4;
 
-export function PaperX() {
+export function PaperX({ isActive = true }: { isActive?: boolean }) {
   return (
-    <div className="w-full h-full bg-black flex items-center justify-center p-4 md:p-10 overflow-hidden relative">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.988, y: 10 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: [0.22, 0.61, 0.36, 1] }}
-        className="relative w-full max-w-[820px] aspect-[0.82] bg-[#ebeae4] text-[#3d3d39] shadow-2xl overflow-hidden"
-      >
-        <PaperGrain />
-        <AmbientField />
-        <ScanLine />
+    <div className="w-full h-full bg-zinc-950 flex items-center justify-center p-4 md:p-10 overflow-hidden relative">
+      <AnimatePresence>
+        {isActive && (
+          <motion.div
+            key="paper-container"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -20 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full max-w-[820px] bg-[#ebeae4] text-[#3d3d39] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden"
+            style={{ 
+              aspectRatio: '0.82 / 1',
+              maxHeight: '90vh'
+            }}
+          >
+            <PaperGrain />
+            <AmbientField />
+            <ScanLine />
 
-        <motion.div
-          animate={{ y: [0, -1.5, 0, 1, 0] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-          className="absolute inset-[22px] md:inset-[28px] font-mono text-[9px] md:text-[10px] leading-[1.2] tracking-[0.01em]"
-        >
-          <Header metaLeft={metaLeft} metaRight={metaRight} />
-          <QuietPanels />
-          <Structure />
-          <LedgerBlock />
-          <Footer />
-        </motion.div>
-      </motion.div>
+            <motion.div
+              animate={{ y: [0, -1.5, 0, 1, 0] }}
+              transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+              className="absolute inset-[22px] md:inset-[28px] font-mono text-[9px] md:text-[10px] leading-[1.2] tracking-[0.01em] flex flex-col h-[calc(100%-44px)] md:h-[calc(100%-56px)]"
+            >
+              <Header metaLeft={metaLeft} metaRight={metaRight} />
+              <QuietPanels />
+              <Structure />
+              <LedgerBlock />
+              <Footer />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -70,7 +80,7 @@ export function PaperX() {
 function PaperGrain() {
   return (
     <div
-      className="absolute inset-0 opacity-[0.12] pointer-events-none mix-blend-multiply"
+      className="absolute inset-0 opacity-[0.12] pointer-events-none mix-blend-multiply z-10"
       style={{
         backgroundImage: `
           radial-gradient(circle at 20% 30%, rgba(255,255,255,0.7) 0 0.4px, transparent 0.5px),
@@ -88,7 +98,7 @@ function AmbientField() {
     <motion.div
       animate={{ opacity: [0.18, 0.26, 0.18] }}
       transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
-      className="absolute inset-0 pointer-events-none"
+      className="absolute inset-0 pointer-events-none z-0"
       style={{
         background:
           'radial-gradient(circle at 70% 20%, rgba(227,235,223,0.55), transparent 34%), radial-gradient(circle at 18% 72%, rgba(232,238,227,0.42), transparent 40%)',
@@ -103,12 +113,10 @@ function ScanLine() {
       initial={{ y: '-8%' }}
       animate={{ y: ['-8%', '108%'] }}
       transition={{ duration: 6.5, repeat: Infinity, ease: 'linear' }}
-      className="absolute left-0 right-0 h-[64px] pointer-events-none"
+      className="absolute left-0 right-0 h-[64px] pointer-events-none mix-blend-screen opacity-[0.15] z-20"
       style={{
         background:
-          'linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.22), rgba(255,255,255,0))',
-        mixBlendMode: 'screen',
-        opacity: 0.42,
+          'linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.8), rgba(255,255,255,0))',
       }}
     />
   );
@@ -116,18 +124,18 @@ function ScanLine() {
 
 function Header({ metaLeft, metaRight }: { metaLeft: string[]; metaRight: string[] }) {
   return (
-    <>
+    <div className="relative w-full h-[60px] shrink-0 z-30">
       <motion.div
         initial={{ scaleX: 0, opacity: 0.4 }}
         animate={{ scaleX: 1, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.08, ease: 'linear' }}
+        transition={{ duration: 0.5, delay: 0.4, ease: 'linear' }}
         style={{ transformOrigin: 'left center' }}
         className="absolute left-0 top-0 w-[34%] border-t-[3px] border-[#c7c7c0]"
       />
       <motion.div
         initial={{ scaleX: 0, opacity: 0.4 }}
         animate={{ scaleX: 1, opacity: 1 }}
-        transition={{ duration: 0.55, delay: 0.15, ease: 'linear' }}
+        transition={{ duration: 0.55, delay: 0.5, ease: 'linear' }}
         style={{ transformOrigin: 'left center' }}
         className="absolute left-[38.5%] top-0 right-0 border-t-[3px] border-[#c7c7c0]"
       />
@@ -135,7 +143,7 @@ function Header({ metaLeft, metaRight }: { metaLeft: string[]; metaRight: string
       <motion.div
         initial={{ opacity: 0, y: -4 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.22, ease: 'linear' }}
+        transition={{ duration: 0.4, delay: 0.6, ease: 'linear' }}
         className="absolute top-[4px] left-0 space-y-[2px] text-[#454540]"
       >
         {metaLeft.map((line) => (
@@ -146,7 +154,7 @@ function Header({ metaLeft, metaRight }: { metaLeft: string[]; metaRight: string
       <motion.div
         initial={{ opacity: 0, y: -4 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.28, ease: 'linear' }}
+        transition={{ duration: 0.4, delay: 0.7, ease: 'linear' }}
         className="absolute top-[4px] left-[39%] right-0 text-[#454540]"
       >
         <div className="flex items-start justify-between gap-3">
@@ -172,13 +180,13 @@ function Header({ metaLeft, metaRight }: { metaLeft: string[]; metaRight: string
       >
         1/3
       </motion.div>
-    </>
+    </div>
   );
 }
 
 function QuietPanels() {
   return (
-    <>
+    <div className="absolute inset-0 pointer-events-none z-10">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.55, 0.88, 0.55], x: [0, 6, 0] }}
@@ -215,13 +223,13 @@ function QuietPanels() {
         transition={{ duration: 3.8, delay: 0.6, repeat: Infinity, ease: 'easeInOut' }}
         className="absolute left-[28px] bottom-[160px] w-[24%] h-[14px] bg-[#f4f4f0]"
       />
-    </>
+    </div>
   );
 }
 
 function Structure() {
   return (
-    <>
+    <div className="absolute inset-0 pointer-events-none z-20">
       <motion.div
         initial={{ scaleY: 0 }}
         animate={{ scaleY: [0, 1, 1, 1, 0.08, 0] }}
@@ -328,7 +336,7 @@ function Structure() {
         transition={{ duration: 5.2, repeat: Infinity, ease: 'easeInOut' }}
         className="absolute right-[2px] top-[204px] w-[38%] h-[4px] bg-[#f3f5f0]"
       />
-    </>
+    </div>
   );
 }
 
@@ -343,7 +351,7 @@ function LedgerBlock() {
         repeat: Infinity,
         ease: 'linear',
       }}
-      className="absolute left-[29%] right-[2px] bottom-[166px] border-[3px] border-[#cfcfc8] bg-[#ecece7]/55 overflow-hidden"
+      className="absolute left-[29%] right-[2px] bottom-[166px] border-[3px] border-[#cfcfc8] bg-[#ecece7]/55 overflow-hidden z-30"
     >
       <motion.div
         animate={{
@@ -448,9 +456,9 @@ function Footer() {
         repeat: Infinity,
         ease: 'linear',
       }}
-      className="absolute left-0 right-0 bottom-0 pt-2 border-t-[3px] border-[#c9c9c3] text-[#474741]"
+      className="absolute left-0 right-0 bottom-0 pt-2 border-t-[3px] border-[#c9c9c3] text-[#474741] z-40 bg-[#ebeae4]/80 backdrop-blur-sm"
     >
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4 pb-1">
         <FooterBlock symbol="⌂" lines={footerLeft} />
         <FooterBlock symbol="↦" lines={footerCenter} />
         <FooterBlock symbol="◇" lines={footerRight} />
@@ -471,10 +479,10 @@ function FooterBlock({ symbol, lines }: { symbol: string; lines: string[] }) {
       }}
       className="flex gap-2"
     >
-      <div className="pt-[1px] text-[#66665f]">{symbol}</div>
-      <div className="space-y-[2px]">
+      <div className="pt-[1px] text-[#66665f] shrink-0">{symbol}</div>
+      <div className="space-y-[2px] overflow-hidden">
         {lines.map((line) => (
-          <div key={line}>{line}</div>
+          <div key={line} className="truncate">{line}</div>
         ))}
       </div>
     </motion.div>

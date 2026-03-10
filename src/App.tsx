@@ -119,7 +119,7 @@ export default function App() {
                   visibility: opacity > 0 ? "visible" : "hidden",
                 }}
               >
-                <PaperX />
+                <PaperX isActive={isActive} />
               </div>
             );
           }
