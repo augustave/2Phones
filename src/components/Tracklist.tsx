@@ -116,9 +116,9 @@ export function Tracklist({ isActive = true }: { isActive?: boolean }) {
         {isActive && (
           <motion.div
             key="tracklist-container"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            initial={{ scale: 1 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="relative shadow-[0_0_0.1px_rgba(0,0,0,0.5)] overflow-hidden"
             style={{ 
@@ -163,26 +163,6 @@ export function Tracklist({ isActive = true }: { isActive?: boolean }) {
                 background: `repeating-linear-gradient(to bottom, transparent 0px, transparent 5px, ${colors.scanline} 6px, transparent 7px)`
               }}
             />
-            <div 
-              className="absolute inset-0 pointer-events-none z-20 opacity-85 mix-blend-screen"
-              style={{
-                background: `
-                  radial-gradient(circle at 50% 10%, ${colors.glow}, transparent 42%),
-                  radial-gradient(circle at 50% 88%, rgba(0,0,0,0.05), transparent 32%)
-                `
-              }}
-            />
-            <motion.div 
-              className="absolute inset-0 pointer-events-none z-20 opacity-0 mix-blend-screen"
-              animate={phase === 'entrance' ? {
-                translateX: ['-120%', '100%'],
-                opacity: [0, 0.32, 0]
-              } : {}}
-              transition={{ duration: 0.8, ease: "circOut" }}
-              style={{
-                background: `linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.00) 42%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.00) 58%, transparent 100%)`
-              }}
-            />
 
             <div className="absolute bottom-3 left-4 text-[11px] font-bold tracking-widest opacity-55 mix-blend-multiply pointer-events-none z-30" style={{ color: colors.text }}>
               PRESS D FOR DARK MODE
@@ -199,11 +179,7 @@ export function Tracklist({ isActive = true }: { isActive?: boolean }) {
 
 function TitleRow({ colors, visible }: { colors: any, visible: boolean }) {
   return (
-    <motion.g
-      initial={{ opacity: 0 }}
-      animate={visible ? { opacity: 1 } : { opacity: 0 }}
-      transition={{ duration: 0.4 }}
-    >
+    <motion.g>
       <motion.rect
         x="460" y="75" width="280" height="85"
         fill={colors.block}
@@ -216,8 +192,8 @@ function TitleRow({ colors, visible }: { colors: any, visible: boolean }) {
         x="600" y="118"
         fill={colors.text}
         fontSize="38" textAnchor="middle" dominantBaseline="middle"
-        initial={{ opacity: 0, x: -18 }}
-        animate={visible ? { opacity: 1, x: 0 } : { opacity: 0, x: 18 }}
+        initial={{ x: -18 }}
+        animate={visible ? { x: 0 } : { x: 18 }}
         transition={{ delay: 0.2, duration: 0.4 }}
         style={{ fontWeight: 700 }}
       >
@@ -315,10 +291,7 @@ function TrackRow({ data, colors, index, phase, isEmphasized }: { data: TrackDat
   }, [isEmphasized, phase, data.text]);
 
   return (
-    <motion.g
-      initial={{ opacity: 0 }}
-      animate={visible ? { opacity: 1 } : { opacity: 0 }}
-    >
+    <motion.g>
       <motion.rect
         className="transition-colors duration-300"
         x={data.x} y={data.y} width={data.w} height={85}
@@ -341,13 +314,12 @@ function TrackRow({ data, colors, index, phase, isEmphasized }: { data: TrackDat
         x="600" y={data.y + 43}
         fill={isEmphasized ? colors.textHero : colors.text}
         fontSize="38" textAnchor="middle" dominantBaseline="middle"
-        initial={{ opacity: 0, x: -18, rotateX: 0 }}
+        initial={{ x: -18, rotateX: 0 }}
         animate={visible ? { 
-          opacity: 1, 
           x: 0,
           y: flipY,
           rotateX: isEmphasized ? [0, 15, -15, 0] : 0
-        } : { opacity: 0, x: 18 }}
+        } : { x: 18 }}
         transition={visible ? { 
           delay: (index * 0.08) + 0.4,
           duration: 0.5 
