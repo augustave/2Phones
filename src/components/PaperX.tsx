@@ -49,7 +49,7 @@ export function PaperX({ isActive = true }: { isActive?: boolean }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -30 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative bg-[#ebeae4] text-[#3d3d39] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col"
+            className="relative bg-[#ebeae4] text-[#3d3d39] shadow-[0_0_0.1px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col"
             style={{ 
               width: 'min(820px, 90vw)',
               height: 'min(1000px, 85vh)',

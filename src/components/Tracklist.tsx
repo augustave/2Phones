@@ -120,7 +120,7 @@ export function Tracklist({ isActive = true }: { isActive?: boolean }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden"
+            className="relative shadow-[0_0_0.1px_rgba(0,0,0,0.5)] overflow-hidden"
             style={{ 
               width: 'min(980px, 92vw)',
               height: 'min(816px, 80vh)',
