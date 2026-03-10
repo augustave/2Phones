@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ArtView } from "./components/ArtView";
 import { InfoView } from "./components/InfoView";
 import { PaperX } from "./components/PaperX";
+import { Tracklist } from "./components/Tracklist";
 import { PhoneFrame } from "./components/PhoneFrame";
 import SlipcaseShelf from "./components/SlipcaseShelf";
 import { portfolioData } from "./data/galleryData";
@@ -84,6 +85,7 @@ export default function App() {
           const isNext = index === (activeIndex + 1) % portfolioData.length;
           const isBookshelf = item.id === "3books";
           const isPaperX = item.id === "paper-x";
+          const isTracklist = item.id === "tracklist";
           
           let translateX = "0%";
           let opacity = 0;
@@ -105,6 +107,23 @@ export default function App() {
             translateX = "30%";
             opacity = 0;
             zIndex = 10;
+          }
+
+          if (isTracklist) {
+            return (
+              <div
+                key={item.id}
+                className="absolute inset-0 transition-opacity duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                style={{
+                  opacity: isLoaded ? opacity : 0,
+                  zIndex,
+                  pointerEvents,
+                  visibility: opacity > 0 ? "visible" : "hidden",
+                }}
+              >
+                <Tracklist isActive={isActive} />
+              </div>
+            );
           }
 
           if (isPaperX) {

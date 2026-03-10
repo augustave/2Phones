@@ -36,5 +36,14 @@ export const portfolioData: PortfolioItem[] = [
     descriptionTitle: "Administrative Modernism",
     descriptionText: "An interactive, high-fidelity digital reproduction of 20th-century administrative aesthetics. Features procedural grain, kinetic scanlines, and animated ledger entries that respond to system cycles.",
     technologies: ["React", "Framer Motion", "Vanilla CSS"],
+  },
+  {
+    id: "tracklist",
+    projectTitle: "Tracklist",
+    leftImageSrc: "/images/tracklist.jpg",
+    leftImageAlt: "Beat Tape Tracklist",
+    descriptionTitle: "Animated Beat Tape Tracklist",
+    descriptionText: "A kinetic typography experiment for music releases. Features a sequential entrance system, scramble-load timestamps, and an integrated dark mode, all wrapped in a high-contrast brutalist aesthetic.",
+    technologies: ["React", "SVG", "Framer Motion", "Oswald"],
   }
 ];
