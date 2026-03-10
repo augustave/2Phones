@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ArtView } from "./components/ArtView";
 import { InfoView } from "./components/InfoView";
+import { PaperX } from "./components/PaperX";
 import { PhoneFrame } from "./components/PhoneFrame";
 import SlipcaseShelf from "./components/SlipcaseShelf";
 import { portfolioData } from "./data/galleryData";
@@ -82,6 +83,7 @@ export default function App() {
           const isPrev = index === (activeIndex - 1 + portfolioData.length) % portfolioData.length;
           const isNext = index === (activeIndex + 1) % portfolioData.length;
           const isBookshelf = item.id === "3books";
+          const isPaperX = item.id === "paper-x";
           
           let translateX = "0%";
           let opacity = 0;
@@ -118,6 +120,37 @@ export default function App() {
                 }}
               >
                 <SlipcaseShelf isActive={isActive} />
+              </div>
+            );
+          }
+
+          if (isPaperX) {
+            return (
+              <div
+                key={item.id}
+                className="absolute inset-0 flex flex-col xl:flex-row items-center justify-center p-4 sm:p-8 gap-12 xl:gap-24 transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                style={{
+                  transform: `translateX(${translateX}) scale(${scale})`,
+                  opacity: isLoaded ? opacity : 0,
+                  zIndex,
+                  pointerEvents,
+                }}
+              >
+                <div className={`scale-[0.55] sm:scale-[0.65] md:scale-75 lg:scale-90 xl:scale-95 -mt-16 xl:-mt-8 transition-all duration-1000`}>
+                  <div style={getLeftPhoneStyle(isActive)} className="relative">
+                    <PhoneFrame side="left">
+                      <PaperX />
+                    </PhoneFrame>
+                  </div>
+                </div>
+
+                <div className={`scale-[0.55] sm:scale-[0.65] md:scale-75 lg:scale-90 xl:scale-95 -mt-24 xl:mt-8 transition-all duration-1000 delay-100`}>
+                  <div style={getRightPhoneStyle(isActive)} className="relative">
+                    <PhoneFrame side="right">
+                      <InfoView data={item} />
+                    </PhoneFrame>
+                  </div>
+                </div>
               </div>
             );
           }
