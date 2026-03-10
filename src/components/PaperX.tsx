@@ -40,19 +40,19 @@ const ROUTE_CYCLE = 6.4;
 
 export function PaperX({ isActive = true }: { isActive?: boolean }) {
   return (
-    <div className="w-full h-full bg-zinc-950 flex items-center justify-center p-4 md:p-10 overflow-hidden relative">
+    <div className="w-full h-full bg-zinc-950 flex items-center justify-center overflow-hidden relative">
       <AnimatePresence>
         {isActive && (
           <motion.div
             key="paper-container"
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -20 }}
+            exit={{ opacity: 0, scale: 0.9, y: -30 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-[820px] bg-[#ebeae4] text-[#3d3d39] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden"
+            className="relative bg-[#ebeae4] text-[#3d3d39] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col"
             style={{ 
-              aspectRatio: '0.82 / 1',
-              maxHeight: '90vh'
+              width: 'min(820px, 90vw)',
+              height: 'min(1000px, 85vh)',
             }}
           >
             <PaperGrain />
@@ -62,13 +62,21 @@ export function PaperX({ isActive = true }: { isActive?: boolean }) {
             <motion.div
               animate={{ y: [0, -1.5, 0, 1, 0] }}
               transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-              className="absolute inset-[22px] md:inset-[28px] font-mono text-[9px] md:text-[10px] leading-[1.2] tracking-[0.01em] flex flex-col h-[calc(100%-44px)] md:h-[calc(100%-56px)]"
+              className="absolute inset-0 p-[22px] md:p-[28px] font-mono text-[9px] md:text-[10px] leading-[1.2] tracking-[0.01em] flex flex-col justify-between h-full"
             >
-              <Header metaLeft={metaLeft} metaRight={metaRight} />
-              <QuietPanels />
-              <Structure />
-              <LedgerBlock />
-              <Footer />
+              <div className="relative h-[60px] shrink-0">
+                <Header metaLeft={metaLeft} metaRight={metaRight} />
+              </div>
+              
+              <div className="flex-1 relative my-4">
+                <QuietPanels />
+                <Structure />
+                <LedgerBlock />
+              </div>
+              
+              <div className="relative h-[60px] shrink-0">
+                <Footer />
+              </div>
             </motion.div>
           </motion.div>
         )}
@@ -124,7 +132,7 @@ function ScanLine() {
 
 function Header({ metaLeft, metaRight }: { metaLeft: string[]; metaRight: string[] }) {
   return (
-    <div className="relative w-full h-[60px] shrink-0 z-30">
+    <div className="relative w-full h-full">
       <motion.div
         initial={{ scaleX: 0, opacity: 0.4 }}
         animate={{ scaleX: 1, opacity: 1 }}
@@ -191,37 +199,31 @@ function QuietPanels() {
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.55, 0.88, 0.55], x: [0, 6, 0] }}
         transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute left-[-8px] top-[36px] w-[43%] h-[22px] bg-[#edf1ea]"
+        className="absolute left-[-8px] top-[10px] w-[43%] h-[22px] bg-[#edf1ea]"
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.48, 0.78, 0.48], x: [0, -8, 0], y: [0, 2, 0] }}
         transition={{ duration: 5.2, delay: 0.2, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute right-[16%] top-[28px] w-[26%] h-[26px] bg-[#e7ece2]"
+        className="absolute right-[16%] top-[2px] w-[26%] h-[26px] bg-[#e7ece2]"
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.42, 0.8, 0.42], x: [0, -4, 0], scaleY: [1, 1.04, 1] }}
         transition={{ duration: 5.8, delay: 0.4, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute right-[6%] top-[72px] w-[22%] h-[92px] border-[3px] border-[#dde3d8] bg-[#e7ece2]/70"
+        className="absolute right-[6%] top-[40px] w-[22%] h-[92px] border-[3px] border-[#dde3d8] bg-[#e7ece2]/70"
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.5, 0.9, 0.5], y: [0, -8, 0], x: [0, -4, 0] }}
         transition={{ duration: 6.8, delay: 0.1, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute right-[4%] top-[196px] w-[38%] h-[172px] border-[3px] border-[#dde3d8] bg-[#e3eadf]/72"
+        className="absolute right-[4%] top-[150px] w-[38%] h-[172px] border-[3px] border-[#dde3d8] bg-[#e3eadf]/72"
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.58, 0.92, 0.58], x: [0, 10, 0], y: [0, -6, 0] }}
         transition={{ duration: 7.5, delay: 0.3, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute left-[-16px] top-[372px] w-[54%] h-[292px] border-[3px] border-[#dfe5da] bg-[#e6ece1]/82"
-      />
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: [0.25, 0.7, 0.25], x: [0, 14, 0] }}
-        transition={{ duration: 3.8, delay: 0.6, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute left-[28px] bottom-[160px] w-[24%] h-[14px] bg-[#f4f4f0]"
+        className="absolute left-[-16px] top-[300px] w-[54%] h-[292px] border-[3px] border-[#dfe5da] bg-[#e6ece1]/82"
       />
     </div>
   );
@@ -240,7 +242,7 @@ function Structure() {
           ease: 'linear',
         }}
         style={{ transformOrigin: 'top center' }}
-        className="absolute left-[39%] top-[32px] h-[355px] border-l-[3px] border-[#c9c9c3]"
+        className="absolute left-[39%] top-[10px] h-[355px] border-l-[3px] border-[#c9c9c3]"
       />
 
       <motion.div
@@ -254,7 +256,7 @@ function Structure() {
           ease: 'linear',
         }}
         style={{ transformOrigin: 'left center' }}
-        className="absolute left-[39%] right-[2px] top-[387px] border-t-[3px] border-[#c9c9c3]"
+        className="absolute left-[39%] right-[2px] top-[365px] border-t-[3px] border-[#c9c9c3]"
       />
 
       <motion.div
@@ -268,7 +270,7 @@ function Structure() {
           ease: 'linear',
         }}
         style={{ transformOrigin: 'left center' }}
-        className="absolute left-[0] right-[2px] bottom-[164px] border-t-[3px] border-[#c9c9c3]"
+        className="absolute left-[0] right-[2px] bottom-[100px] border-t-[3px] border-[#c9c9c3]"
       />
 
       <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible" preserveAspectRatio="none">
@@ -290,52 +292,7 @@ function Structure() {
             ease: 'linear',
           }}
         />
-
-        <motion.line
-          x1="0"
-          y1="552"
-          x2="266"
-          y2="386"
-          stroke="#f7f8f4"
-          strokeWidth="4.25"
-          strokeLinecap="square"
-          vectorEffect="non-scaling-stroke"
-          initial={{ pathLength: 0, pathOffset: 1, opacity: 0 }}
-          animate={{
-            pathLength: [0, 0.22, 0.22, 0],
-            pathOffset: [1, 0.58, 0.12, 0],
-            opacity: [0, 0.95, 0.95, 0],
-          }}
-          transition={{
-            duration: ROUTE_CYCLE,
-            times: [0, 0.26, 0.42, 0.56],
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-          style={{ filter: 'blur(0.2px)' }}
-        />
       </svg>
-
-      <motion.div
-        animate={{
-          opacity: [0, 0, 1, 0.24, 0],
-          scale: [0.72, 0.72, 1.14, 0.96, 0.88],
-        }}
-        transition={{
-          duration: ROUTE_CYCLE,
-          times: [0, 0.34, 0.43, 0.54, 0.66],
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-        className="absolute left-[calc(39%-3px)] top-[383px] w-[7px] h-[7px] rounded-full bg-[#f6f7f2] pointer-events-none"
-        style={{ boxShadow: '0 0 8px rgba(255,255,255,0.35)' }}
-      />
-
-      <motion.div
-        animate={{ opacity: [0.08, 0.68, 0.12], x: [0, -18, 0] }}
-        transition={{ duration: 5.2, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute right-[2px] top-[204px] w-[38%] h-[4px] bg-[#f3f5f0]"
-      />
     </div>
   );
 }
@@ -351,7 +308,7 @@ function LedgerBlock() {
         repeat: Infinity,
         ease: 'linear',
       }}
-      className="absolute left-[29%] right-[2px] bottom-[166px] border-[3px] border-[#cfcfc8] bg-[#ecece7]/55 overflow-hidden z-30"
+      className="absolute left-[29%] right-[2px] bottom-[105px] border-[3px] border-[#cfcfc8] bg-[#ecece7]/55 overflow-hidden z-30"
     >
       <motion.div
         animate={{
@@ -386,7 +343,7 @@ function Ledger() {
       </div>
 
       <div className="space-y-[2px]">
-        {lineItems.map(([id, item, qty, price, total]) => (
+        {lineItems.slice(0, 5).map(([id, item, qty, price, total]) => (
           <div
             key={id}
             className="grid grid-cols-[1.6fr_0.35fr_0.7fr_0.8fr] gap-x-3 items-start"
@@ -402,7 +359,7 @@ function Ledger() {
       <div className="mt-3 border-t-[3px] border-[#cfcfc8] pt-2 space-y-[2px]">
         <SummaryRow label="Summe" value="4850.00" step={0} />
         <SummaryRow label="MwSt. 7.7%" value="373.45" step={1} />
-        <SummaryRow label="Total Off (Zahlbar innert 30 Tagen.)" value="5223.45" step={2} isFinal />
+        <SummaryRow label="Total Off" value="5223.45" step={2} isFinal />
       </div>
     </div>
   );
@@ -447,23 +404,13 @@ function SummaryRow({ label, value, step, isFinal = false }: { label: string; va
 
 function Footer() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: [0.22, 0.22, 0.45, 1, 1], y: [12, 12, 8, 0, 0] }}
-      transition={{
-        duration: ROUTE_CYCLE,
-        times: [0, 0.74, 0.84, 0.94, 1],
-        repeat: Infinity,
-        ease: 'linear',
-      }}
-      className="absolute left-0 right-0 bottom-0 pt-2 border-t-[3px] border-[#c9c9c3] text-[#474741] z-40 bg-[#ebeae4]/80 backdrop-blur-sm"
-    >
+    <div className="relative w-full h-full border-t-[3px] border-[#c9c9c3] pt-2 text-[#474741] z-40 bg-[#ebeae4]/80 backdrop-blur-sm">
       <div className="grid grid-cols-3 gap-4 pb-1">
         <FooterBlock symbol="⌂" lines={footerLeft} />
         <FooterBlock symbol="↦" lines={footerCenter} />
         <FooterBlock symbol="◇" lines={footerRight} />
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -477,12 +424,12 @@ function FooterBlock({ symbol, lines }: { symbol: string; lines: string[] }) {
         repeat: Infinity,
         ease: 'linear',
       }}
-      className="flex gap-2"
+      className="flex gap-2 h-full"
     >
       <div className="pt-[1px] text-[#66665f] shrink-0">{symbol}</div>
-      <div className="space-y-[2px] overflow-hidden">
+      <div className="space-y-[1px] overflow-hidden">
         {lines.map((line) => (
-          <div key={line} className="truncate">{line}</div>
+          <div key={line} className="truncate text-[8px] md:text-[9px] leading-tight">{line}</div>
         ))}
       </div>
     </motion.div>

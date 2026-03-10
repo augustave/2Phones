@@ -56,7 +56,7 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen bg-black flex flex-col items-center justify-center font-sans overflow-hidden relative"
+      className="h-screen w-full bg-black flex flex-col items-center justify-center font-sans overflow-hidden relative"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setMouseOffset({ x: 0, y: 0 })}
     >
@@ -77,7 +77,7 @@ export default function App() {
       </div>
 
       {/* Unified Carousel Track */}
-      <div className="relative w-full h-full flex items-center justify-center">
+      <div className="flex-1 w-full relative flex items-center justify-center">
         {portfolioData.map((item, index) => {
           const isActive = index === activeIndex;
           const isPrev = index === (activeIndex - 1 + portfolioData.length) % portfolioData.length;
