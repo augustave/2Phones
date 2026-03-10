@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type TrackData = {
@@ -65,9 +65,9 @@ export function Tracklist({ isActive = true }: { isActive?: boolean }) {
         }
         setEmphasisId(ids[idx % ids.length]);
         idx++;
-      }, 1000);
+      }, 1200);
       
-      await new Promise(r => setTimeout(r, 6000));
+      await new Promise(r => setTimeout(r, 7200));
       clearInterval(interval);
       if (!isMounted) return;
       setEmphasisId(null);
@@ -134,7 +134,7 @@ export function Tracklist({ isActive = true }: { isActive?: boolean }) {
                   <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch">
                     <animate attributeName="seed" values="0;100;0" dur="1s" repeatCount="indefinite" />
                   </feTurbulence>
-                  <feColorMatrix type="matrix" values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 0 0 0 0.08 0" />
+                  <feColorMatrix type="matrix" values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0.08 0" />
                 </filter>
               </defs>
 
@@ -215,10 +215,11 @@ function TitleRow({ colors, visible }: { colors: any, visible: boolean }) {
       <motion.text
         x="600" y="118"
         fill={colors.text}
-        fontSize="38" fontWeight="700" textAnchor="middle" dominantBaseline="middle"
+        fontSize="38" textAnchor="middle" dominantBaseline="middle"
         initial={{ opacity: 0, x: -18 }}
         animate={visible ? { opacity: 1, x: 0 } : { opacity: 0, x: 18 }}
         transition={{ delay: 0.2, duration: 0.4 }}
+        style={{ fontWeight: 700 }}
       >
         TRACKLIST
       </motion.text>
@@ -228,14 +229,16 @@ function TitleRow({ colors, visible }: { colors: any, visible: boolean }) {
 
 function TrackRow({ data, colors, index, phase, isEmphasized }: { data: TrackData, colors: any, index: number, phase: string, isEmphasized: boolean }) {
   const [displayText, setDisplayText] = useState(data.text);
+  const [flipY, setFlipY] = useState(0);
   const visible = phase !== 'exit';
+  const scrambleRef = useRef<number | null>(null);
   
   // Scramble effect
   useEffect(() => {
     if (phase === 'entrance' && visible) {
       const timestamp = data.text.slice(0, 7);
       const rest = data.text.slice(7);
-      const duration = 600;
+      const duration = 800;
       const start = Date.now();
       
       const tick = () => {
@@ -254,15 +257,62 @@ function TrackRow({ data, colors, index, phase, isEmphasized }: { data: TrackDat
         }
         
         setDisplayText(scrambled + rest);
-        if (progress < 1) requestAnimationFrame(tick);
+        // Subtle flip kick during generation
+        if (Math.random() > 0.7) setFlipY(Math.random() > 0.5 ? -2 : 2);
+        else setFlipY(0);
+
+        if (progress < 1) {
+          scrambleRef.current = requestAnimationFrame(tick);
+        } else {
+          setDisplayText(data.text);
+          setFlipY(0);
+        }
       };
       
-      const timeout = setTimeout(() => requestAnimationFrame(tick), (index * 100) + 300);
-      return () => clearTimeout(timeout);
+      const timeout = setTimeout(() => {
+        scrambleRef.current = requestAnimationFrame(tick);
+      }, (index * 100) + 300);
+      
+      return () => {
+        clearTimeout(timeout);
+        if (scrambleRef.current) cancelAnimationFrame(scrambleRef.current);
+      };
     } else if (!visible) {
       setDisplayText(data.text);
+      setFlipY(0);
     }
   }, [phase, visible, data.text, index]);
+
+  // Emphasis "Kick" scramble
+  useEffect(() => {
+    if (isEmphasized && phase === 'hold') {
+      const timestamp = data.text.slice(0, 7);
+      const rest = data.text.slice(7);
+      let count = 0;
+      
+      const interval = setInterval(() => {
+        let scrambled = '';
+        for (let i = 0; i < timestamp.length; i++) {
+          const char = timestamp[i];
+          if (char >= '0' && char <= '9') {
+            scrambled += Math.floor(Math.random() * 10).toString();
+          } else {
+            scrambled += char;
+          }
+        }
+        setDisplayText(scrambled + rest);
+        setFlipY(count % 2 === 0 ? -3 : 3);
+        count++;
+        if (count > 6) {
+          clearInterval(interval);
+          setDisplayText(data.text);
+          setFlipY(0);
+        }
+      }, 60);
+      
+      return () => clearInterval(interval);
+    }
+  }, [isEmphasized, phase, data.text]);
 
   return (
     <motion.g
@@ -270,30 +320,39 @@ function TrackRow({ data, colors, index, phase, isEmphasized }: { data: TrackDat
       animate={visible ? { opacity: 1 } : { opacity: 0 }}
     >
       <motion.rect
+        className="transition-colors duration-300"
         x={data.x} y={data.y} width={data.w} height={85}
         fill={isEmphasized ? colors.blockHero : colors.block}
         initial={{ scaleX: 0 }}
         animate={visible ? { 
           scaleX: 1,
-          scaleY: isEmphasized ? 1.05 : 1
+          scaleY: isEmphasized ? 1.08 : 1,
+          y: isEmphasized ? -2 : 0
         } : { scaleX: 0 }}
         transition={{ 
           delay: visible ? (index * 0.08) + 0.3 : (9 - index) * 0.05,
           duration: 0.6, 
-          ease: "circOut" 
+          ease: [0.16, 1, 0.3, 1]
         }}
         style={{ originX: 0 }}
       />
       <motion.text
+        className="transition-colors duration-300"
         x="600" y={data.y + 43}
         fill={isEmphasized ? colors.textHero : colors.text}
-        fontSize="38" fontWeight="700" textAnchor="middle" dominantBaseline="middle"
-        initial={{ opacity: 0, x: -18 }}
-        animate={visible ? { opacity: 1, x: 0 } : { opacity: 0, x: 18 }}
-        transition={{ 
-          delay: visible ? (index * 0.08) + 0.4 : (9 - index) * 0.05,
+        fontSize="38" textAnchor="middle" dominantBaseline="middle"
+        initial={{ opacity: 0, x: -18, rotateX: 0 }}
+        animate={visible ? { 
+          opacity: 1, 
+          x: 0,
+          y: flipY,
+          rotateX: isEmphasized ? [0, 15, -15, 0] : 0
+        } : { opacity: 0, x: 18 }}
+        transition={visible ? { 
+          delay: (index * 0.08) + 0.4,
           duration: 0.5 
-        }}
+        } : { duration: 0.3 }}
+        style={{ fontWeight: 700, transformOrigin: 'center' }}
       >
         {displayText}
       </motion.text>
