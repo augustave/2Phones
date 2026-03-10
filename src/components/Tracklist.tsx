@@ -116,13 +116,14 @@ export function Tracklist({ isActive = true }: { isActive?: boolean }) {
         {isActive && (
           <motion.div
             key="tracklist-container"
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="relative shadow-2xl overflow-hidden"
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden"
             style={{ 
-              width: 'min(92vw, 980px)', 
-              aspectRatio: '1.2 / 1',
+              width: 'min(980px, 92vw)',
+              height: 'min(816px, 80vh)',
               backgroundColor: colors.bg,
               fontFamily: "'Oswald', sans-serif"
             }}
