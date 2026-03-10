@@ -30,16 +30,22 @@ const footerCenter = [
   '(W)   atelier-lomann.ch',
 ];
 
+const footerRight = [
+  'Zürcher Kantonalbank',
+  'IBAN: CH72 0070 0114 0001 3030 4',
+  'Swift: ZKBKCHZZ80A',
+];
+
 const ROUTE_CYCLE = 6.4;
 
 export function PaperX() {
   return (
-    <div className="w-full h-full bg-[#ebeae4] flex items-center justify-center overflow-hidden relative">
+    <div className="w-full h-full bg-black flex items-center justify-center p-4 md:p-10 overflow-hidden relative">
       <motion.div
         initial={{ opacity: 0, scale: 0.988, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.55, ease: [0.22, 0.61, 0.36, 1] }}
-        className="relative w-full h-full bg-[#ebeae4] text-[#3d3d39] overflow-hidden"
+        className="relative w-full max-w-[820px] aspect-[0.82] bg-[#ebeae4] text-[#3d3d39] shadow-2xl overflow-hidden"
       >
         <PaperGrain />
         <AmbientField />
@@ -48,7 +54,7 @@ export function PaperX() {
         <motion.div
           animate={{ y: [0, -1.5, 0, 1, 0] }}
           transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-          className="absolute inset-[18px] md:inset-[24px] font-mono text-[8px] md:text-[9px] leading-[1.2] tracking-[0.01em]"
+          className="absolute inset-[22px] md:inset-[28px] font-mono text-[9px] md:text-[10px] leading-[1.2] tracking-[0.01em]"
         >
           <Header metaLeft={metaLeft} metaRight={metaRight} />
           <QuietPanels />
@@ -116,14 +122,14 @@ function Header({ metaLeft, metaRight }: { metaLeft: string[]; metaRight: string
         animate={{ scaleX: 1, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.08, ease: 'linear' }}
         style={{ transformOrigin: 'left center' }}
-        className="absolute left-0 top-0 w-[34%] border-t-[2px] border-[#c7c7c0]"
+        className="absolute left-0 top-0 w-[34%] border-t-[3px] border-[#c7c7c0]"
       />
       <motion.div
         initial={{ scaleX: 0, opacity: 0.4 }}
         animate={{ scaleX: 1, opacity: 1 }}
         transition={{ duration: 0.55, delay: 0.15, ease: 'linear' }}
         style={{ transformOrigin: 'left center' }}
-        className="absolute left-[38.5%] top-0 right-0 border-t-[2px] border-[#c7c7c0]"
+        className="absolute left-[38.5%] top-0 right-0 border-t-[3px] border-[#c7c7c0]"
       />
 
       <motion.div
@@ -143,10 +149,10 @@ function Header({ metaLeft, metaRight }: { metaLeft: string[]; metaRight: string
         transition={{ duration: 0.4, delay: 0.28, ease: 'linear' }}
         className="absolute top-[4px] left-[39%] right-0 text-[#454540]"
       >
-        <div className="flex flex-col gap-1">
-          <div className="space-y-[1px]">
+        <div className="flex items-start justify-between gap-3">
+          <div className="space-y-[2px]">
             {metaRight.map((line) => (
-              <div key={line} className="truncate">{line}</div>
+              <div key={line}>{line}</div>
             ))}
           </div>
           <motion.div
@@ -177,31 +183,37 @@ function QuietPanels() {
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.55, 0.88, 0.55], x: [0, 6, 0] }}
         transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute left-[-8px] top-[36px] w-[43%] h-[18px] bg-[#edf1ea]"
+        className="absolute left-[-8px] top-[36px] w-[43%] h-[22px] bg-[#edf1ea]"
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.48, 0.78, 0.48], x: [0, -8, 0], y: [0, 2, 0] }}
         transition={{ duration: 5.2, delay: 0.2, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute right-[16%] top-[28px] w-[26%] h-[22px] bg-[#e7ece2]"
+        className="absolute right-[16%] top-[28px] w-[26%] h-[26px] bg-[#e7ece2]"
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.42, 0.8, 0.42], x: [0, -4, 0], scaleY: [1, 1.04, 1] }}
         transition={{ duration: 5.8, delay: 0.4, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute right-[6%] top-[72px] w-[22%] h-[80px] border-[2px] border-[#dde3d8] bg-[#e7ece2]/70"
+        className="absolute right-[6%] top-[72px] w-[22%] h-[92px] border-[3px] border-[#dde3d8] bg-[#e7ece2]/70"
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.5, 0.9, 0.5], y: [0, -8, 0], x: [0, -4, 0] }}
         transition={{ duration: 6.8, delay: 0.1, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute right-[4%] top-[180px] w-[38%] h-[150px] border-[2px] border-[#dde3d8] bg-[#e3eadf]/72"
+        className="absolute right-[4%] top-[196px] w-[38%] h-[172px] border-[3px] border-[#dde3d8] bg-[#e3eadf]/72"
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.58, 0.92, 0.58], x: [0, 10, 0], y: [0, -6, 0] }}
         transition={{ duration: 7.5, delay: 0.3, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute left-[-16px] top-[340px] w-[54%] h-[250px] border-[2px] border-[#dfe5da] bg-[#e6ece1]/82"
+        className="absolute left-[-16px] top-[372px] w-[54%] h-[292px] border-[3px] border-[#dfe5da] bg-[#e6ece1]/82"
+      />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0.25, 0.7, 0.25], x: [0, 14, 0] }}
+        transition={{ duration: 3.8, delay: 0.6, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute left-[28px] bottom-[160px] w-[24%] h-[14px] bg-[#f4f4f0]"
       />
     </>
   );
@@ -220,7 +232,7 @@ function Structure() {
           ease: 'linear',
         }}
         style={{ transformOrigin: 'top center' }}
-        className="absolute left-[39%] top-[32px] h-[320px] border-l-[2px] border-[#c9c9c3]"
+        className="absolute left-[39%] top-[32px] h-[355px] border-l-[3px] border-[#c9c9c3]"
       />
 
       <motion.div
@@ -234,7 +246,7 @@ function Structure() {
           ease: 'linear',
         }}
         style={{ transformOrigin: 'left center' }}
-        className="absolute left-[39%] right-[2px] top-[352px] border-t-[2px] border-[#c9c9c3]"
+        className="absolute left-[39%] right-[2px] top-[387px] border-t-[3px] border-[#c9c9c3]"
       />
 
       <motion.div
@@ -248,17 +260,17 @@ function Structure() {
           ease: 'linear',
         }}
         style={{ transformOrigin: 'left center' }}
-        className="absolute left-[0] right-[2px] bottom-[140px] border-t-[2px] border-[#c9c9c3]"
+        className="absolute left-[0] right-[2px] bottom-[164px] border-t-[3px] border-[#c9c9c3]"
       />
 
       <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible" preserveAspectRatio="none">
         <motion.line
           x1="0"
-          y1="500"
-          x2="240"
-          y2="350"
+          y1="552"
+          x2="266"
+          y2="386"
           stroke="#c7c7c0"
-          strokeWidth="2"
+          strokeWidth="3"
           vectorEffect="non-scaling-stroke"
           initial={{ pathLength: 0, opacity: 0.18 }}
           animate={{ pathLength: [0, 1, 1, 1, 0.06, 0], opacity: [0.18, 1, 1, 1, 0.2, 0.18] }}
@@ -270,7 +282,52 @@ function Structure() {
             ease: 'linear',
           }}
         />
+
+        <motion.line
+          x1="0"
+          y1="552"
+          x2="266"
+          y2="386"
+          stroke="#f7f8f4"
+          strokeWidth="4.25"
+          strokeLinecap="square"
+          vectorEffect="non-scaling-stroke"
+          initial={{ pathLength: 0, pathOffset: 1, opacity: 0 }}
+          animate={{
+            pathLength: [0, 0.22, 0.22, 0],
+            pathOffset: [1, 0.58, 0.12, 0],
+            opacity: [0, 0.95, 0.95, 0],
+          }}
+          transition={{
+            duration: ROUTE_CYCLE,
+            times: [0, 0.26, 0.42, 0.56],
+            repeat: Infinity,
+            ease: 'linear',
+          }}
+          style={{ filter: 'blur(0.2px)' }}
+        />
       </svg>
+
+      <motion.div
+        animate={{
+          opacity: [0, 0, 1, 0.24, 0],
+          scale: [0.72, 0.72, 1.14, 0.96, 0.88],
+        }}
+        transition={{
+          duration: ROUTE_CYCLE,
+          times: [0, 0.34, 0.43, 0.54, 0.66],
+          repeat: Infinity,
+          ease: 'linear',
+        }}
+        className="absolute left-[calc(39%-3px)] top-[383px] w-[7px] h-[7px] rounded-full bg-[#f6f7f2] pointer-events-none"
+        style={{ boxShadow: '0 0 8px rgba(255,255,255,0.35)' }}
+      />
+
+      <motion.div
+        animate={{ opacity: [0.08, 0.68, 0.12], x: [0, -18, 0] }}
+        transition={{ duration: 5.2, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute right-[2px] top-[204px] w-[38%] h-[4px] bg-[#f3f5f0]"
+      />
     </>
   );
 }
@@ -286,8 +343,25 @@ function LedgerBlock() {
         repeat: Infinity,
         ease: 'linear',
       }}
-      className="absolute left-[10%] right-[2px] bottom-[142px] border-[2px] border-[#cfcfc8] bg-[#ecece7]/55 overflow-hidden"
+      className="absolute left-[29%] right-[2px] bottom-[166px] border-[3px] border-[#cfcfc8] bg-[#ecece7]/55 overflow-hidden"
     >
+      <motion.div
+        animate={{
+          x: ['-120%', '-120%', '122%', '122%'],
+          opacity: [0, 0, 0.92, 0],
+        }}
+        transition={{
+          duration: ROUTE_CYCLE,
+          times: [0, 0.46, 0.7, 0.82],
+          repeat: Infinity,
+          ease: 'linear',
+        }}
+        className="absolute top-0 bottom-0 w-[34%] pointer-events-none"
+        style={{
+          background: 'linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.32), rgba(255,255,255,0))',
+          mixBlendMode: 'screen',
+        }}
+      />
       <Ledger />
     </motion.div>
   );
@@ -295,29 +369,32 @@ function LedgerBlock() {
 
 function Ledger() {
   return (
-    <div className="px-2 py-1.5 text-[#43433e]">
-      <div className="grid grid-cols-[1.6fr_0.35fr_0.7fr_0.8fr] gap-x-2 border-b-[2px] border-[#cfcfc8] pb-1 mb-1 uppercase tracking-[0.03em] text-[7px]">
+    <div className="px-3 py-2 text-[#43433e]">
+      <div className="grid grid-cols-[1.6fr_0.35fr_0.7fr_0.8fr] gap-x-3 border-b-[3px] border-[#cfcfc8] pb-1 mb-1 uppercase tracking-[0.03em] text-[8px] md:text-[9px]">
         <div>Nr. & Bezeichnung</div>
         <div className="text-right">Menge</div>
-        <div className="text-right">Total</div>
+        <div className="text-right">Einzelpreis</div>
+        <div className="text-right">Betrag</div>
       </div>
 
-      <div className="space-y-[1px]">
-        {lineItems.slice(0, 4).map(([id, item, qty, _price, total]) => (
+      <div className="space-y-[2px]">
+        {lineItems.map(([id, item, qty, price, total]) => (
           <div
             key={id}
-            className="grid grid-cols-[1.6fr_0.35fr_0.7fr_0.8fr] gap-x-2 items-start text-[7px]"
+            className="grid grid-cols-[1.6fr_0.35fr_0.7fr_0.8fr] gap-x-3 items-start"
           >
             <div className="truncate">{id}) {item}</div>
             <div className="text-right">{qty}</div>
+            <div className="text-right">{price}</div>
             <div className="text-right">{total}</div>
           </div>
         ))}
       </div>
 
-      <div className="mt-2 border-t-[2px] border-[#cfcfc8] pt-1 space-y-[1px]">
+      <div className="mt-3 border-t-[3px] border-[#cfcfc8] pt-2 space-y-[2px]">
         <SummaryRow label="Summe" value="4850.00" step={0} />
-        <SummaryRow label="Total Off" value="5223.45" step={2} isFinal />
+        <SummaryRow label="MwSt. 7.7%" value="373.45" step={1} />
+        <SummaryRow label="Total Off (Zahlbar innert 30 Tagen.)" value="5223.45" step={2} isFinal />
       </div>
     </div>
   );
@@ -328,19 +405,31 @@ function SummaryRow({ label, value, step, isFinal = false }: { label: string; va
   const peak = start + 0.07;
   const settle = isFinal ? 0.965 : peak + 0.08;
 
+  const opacityFrames = isFinal
+    ? [0.74, 0.74, 1, 1, 1, 0.74]
+    : [0.74, 0.74, 1, 0.88, 0.74];
+
+  const colorFrames = isFinal
+    ? ['#43433e', '#43433e', '#151514', '#151514', '#151514', '#43433e']
+    : ['#43433e', '#43433e', '#1f1f1d', '#2d2d2a', '#43433e'];
+
+  const timeFrames = isFinal
+    ? [0, start, peak, 0.9, settle, 1]
+    : [0, start, peak, settle, 1];
+
   return (
     <motion.div
       animate={{
-        opacity: isFinal ? [0.74, 0.74, 1, 1, 1, 0.74] : [0.74, 0.74, 1, 0.88, 0.74],
-        color: isFinal ? ['#43433e', '#43433e', '#151514', '#151514', '#151514', '#43433e'] : ['#43433e', '#43433e', '#1f1f1d', '#2d2d2a', '#43433e'],
+        opacity: opacityFrames,
+        color: colorFrames,
       }}
       transition={{
         duration: ROUTE_CYCLE,
-        times: isFinal ? [0, start, peak, 0.9, settle, 1] : [0, start, peak, settle, 1],
+        times: timeFrames,
         repeat: Infinity,
         ease: 'linear',
       }}
-      className="flex items-start justify-between gap-2 text-[7px]"
+      className="flex items-start justify-between gap-4"
     >
       <div className="truncate">• {label}</div>
       <div className="whitespace-nowrap">{value}</div>
@@ -359,15 +448,34 @@ function Footer() {
         repeat: Infinity,
         ease: 'linear',
       }}
-      className="absolute left-0 right-0 bottom-0 pt-1 border-t-[2px] border-[#c9c9c3] text-[#474741]"
+      className="absolute left-0 right-0 bottom-0 pt-2 border-t-[3px] border-[#c9c9c3] text-[#474741]"
     >
-      <div className="grid grid-cols-2 gap-2 text-[6px]">
-        <div className="space-y-[1px]">
-          {footerLeft.map((line) => <div key={line} className="truncate">{line}</div>)}
-        </div>
-        <div className="space-y-[1px] text-right">
-          {footerCenter.map((line) => <div key={line} className="truncate">{line}</div>)}
-        </div>
+      <div className="grid grid-cols-3 gap-4">
+        <FooterBlock symbol="⌂" lines={footerLeft} />
+        <FooterBlock symbol="↦" lines={footerCenter} />
+        <FooterBlock symbol="◇" lines={footerRight} />
+      </div>
+    </motion.div>
+  );
+}
+
+function FooterBlock({ symbol, lines }: { symbol: string; lines: string[] }) {
+  return (
+    <motion.div
+      animate={{ opacity: [0.58, 0.58, 0.72, 1, 1] }}
+      transition={{
+        duration: ROUTE_CYCLE,
+        times: [0, 0.78, 0.88, 0.96, 1],
+        repeat: Infinity,
+        ease: 'linear',
+      }}
+      className="flex gap-2"
+    >
+      <div className="pt-[1px] text-[#66665f]">{symbol}</div>
+      <div className="space-y-[2px]">
+        {lines.map((line) => (
+          <div key={line}>{line}</div>
+        ))}
       </div>
     </motion.div>
   );
