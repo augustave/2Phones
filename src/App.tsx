@@ -114,20 +114,23 @@ export default function App() {
             return (
               <div
                 key={item.id}
-                className="absolute inset-0 transition-opacity duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                className="absolute inset-0 flex items-center justify-center p-8 sm:p-12 transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
                 style={{
                   opacity: isLoaded ? opacity : 0,
                   zIndex,
                   pointerEvents,
                   visibility: opacity > 0 ? "visible" : "hidden",
+                  transform: `translateX(${translateX})`,
                 }}
               >
-                <iframe
-                  src="/modern_grafiken_2.html"
-                  title="Modern Grafiken 2"
-                  className="w-full h-full border-0"
-                  sandbox="allow-scripts allow-same-origin"
-                />
+                <div className="relative w-full h-full max-w-[600px] max-h-[85vh] aspect-[1/1.414] bg-black shadow-2xl overflow-hidden rounded-sm border border-white/5 flex items-center justify-center">
+                  <iframe
+                    src="/modern_grafiken_2.html"
+                    title="Modern Grafiken 2"
+                    className="w-full h-full border-0 pointer-events-auto"
+                    sandbox="allow-scripts allow-same-origin"
+                  />
+                </div>
               </div>
             );
           }
