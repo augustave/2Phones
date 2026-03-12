@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Max Bill - Grafiken Interactive</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Inter:wght@400;900&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #e8e6e1; /* Off-white paper color */
+      color: #1a1a1a;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .poster-container {
+      position: relative;
+      width: min(90vw, 600px);
+      aspect-ratio: 1 / 1.414;
+      background: #e8e6e1;
+      box-shadow: 0 50px 100px rgba(0,0,0,0.1);
+      overflow: hidden;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Paper Grain Overlay */
+    .poster-container::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.15;
+      mix-blend-mode: multiply;
+      z-index: 10;
+    }
+
+    .header {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+      z-index: 5;
+    }
+
+    .signature {
+      font-family: 'Homemade Apple', cursive;
+      font-size: 38px;
+      margin-bottom: -5px;
+      opacity: 0.85;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      font-family: 'Homemade Apple', cursive;
+      font-size: 18px;
+      opacity: 0.7;
+      text-decoration: underline;
+    }
+
+    #gridSvg {
+      flex: 1;
+      width: 100%;
+      z-index: 5;
+    }
+
+    .footer {
+      width: 100%;
+      font-size: 9px;
+      text-align: left;
+      line-height: 1.4;
+      opacity: 0.6;
+      margin-top: 20px;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .footer-bottom {
+      grid-column: span 3;
+      margin-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="poster-container">
+    <div class="header">
+      <div class="signature">max bill</div>
+      <div class="subtitle">grafiken</div>
+    </div>
+
+    <svg id="gridSvg" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet">
+      <!-- Grid will be populated by JS -->
+    </svg>
+
+    <div class="footer">
+      <div>
+        17. — 23. dezember 1977<br>
+        mo–fr 10–22 uhr<br>
+        sa 10–17 uhr
+      </div>
+      <div>
+        27. — 30. dezember<br>
+        täglich 10–19 uhr
+      </div>
+      <div>
+        2. — 17. januar 1978<br>
+        mo–fr 10–22 uhr<br>
+        sa 10–17 uhr
+      </div>
+      <div class="footer-bottom">veranstaltet von der genossenschaft migros st. gallen</div>
+    </div>
+  </div>
+
+  <script>
+    const svg = document.getElementById('gridSvg');
+    const ns = "http://www.w3.org/2000/svg";
+    
+    // Max Bill Colors
+    const colors = {
+      blue: '#6a7fb4',
+      red: '#b44a42',
+      green: '#6d8a4a',
+      orange: '#b87e2a',
+      white: '#ffffff',
+      none: 'transparent'
+    };
+
+    // The Grid Pattern (6x6)
+    // 0: transparent, 1: blue, 2: red, 3: green, 4: orange, 5: white
+    const gridData = [
+      [0, 1, 1, 2, 2, 0],
+      [1, 5, 1, 2, 5, 2],
+      [3, 1, 5, 5, 4, 2],
+      [3, 3, 5, 5, 4, 4],
+      [3, 5, 4, 4, 5, 4],
+      [0, 3, 3, 4, 4, 0]
+    ];
+
+    const cellSize = 80;
+    const margin = (500 - (6 * cellSize)) / 2;
+    const items = [];
+
+    // Create Rects
+    gridData.forEach((row, r) => {
+      row.forEach((type, c) => {
+        if (type === 0) return;
+
+        const rect = document.createElementNS(ns, 'rect');
+        const x = margin + c * cellSize;
+        const y = margin + r * cellSize;
+        
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', cellSize - 2);
+        rect.setAttribute('height', cellSize - 2);
+        
+        let color = colors.white;
+        if (type === 1) color = colors.blue;
+        if (type === 2) color = colors.red;
+        if (type === 3) color = colors.green;
+        if (type === 4) color = colors.orange;
+        
+        rect.setAttribute('fill', color);
+        // Add a subtle drop shadow filter if needed, but keeping it flat for Max Bill style
+        
+        svg.appendChild(rect);
+        
+        items.push({
+          el: rect,
+          baseX: x + cellSize/2,
+          baseY: y + cellSize/2,
+          currX: x + cellSize/2,
+          currY: y + cellSize/2,
+          velX: 0,
+          velY: 0,
+          scale: 1,
+          baseType: type
+        });
+      });
+    });
+
+    let mouseX = -1000;
+    let mouseY = -1000;
+
+    window.addEventListener('mousemove', (e) => {
+      const rect = svg.getBoundingClientRect();
+      mouseX = (e.clientX - rect.left) * (500 / rect.width);
+      mouseY = (e.clientY - rect.top) * (500 / rect.height);
+    });
+
+    function update(t) {
+      const time = t * 0.001;
+
+      items.forEach((item, i) => {
+        const dx = mouseX - item.baseX;
+        const dy = mouseY - item.baseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        // Proximity Effect
+        const maxDist = 150;
+        let targetX = item.baseX;
+        let targetY = item.baseY;
+        let targetScale = 1;
+
+        if (dist < maxDist) {
+          const power = (1 - dist / maxDist);
+          // Push away slightly
+          targetX -= dx * power * 0.4;
+          targetY -= dy * power * 0.4;
+          // Scale up
+          targetScale = 1 + power * 0.3;
+        }
+
+        // Spring Physics for Position
+        const ax = (targetX - item.currX) * 0.15;
+        const ay = (targetY - item.currY) * 0.15;
+        item.velX = (item.velX + ax) * 0.75;
+        item.velY = (item.velY + ay) * 0.75;
+        item.currX += item.velX;
+        item.currY += item.velY;
+
+        // Smooth Scale
+        item.scale += (targetScale - item.scale) * 0.2;
+
+        // Apply Transform
+        // Center the scale
+        const tx = item.currX - (cellSize/2) * item.scale;
+        const ty = item.currY - (cellSize/2) * item.scale;
+        const s = item.scale * (cellSize - 2) / cellSize;
+        
+        item.el.setAttribute('transform', `translate(${item.currX} ${item.currY}) scale(${item.scale}) translate(${-item.baseX} ${-item.baseY})`);
+        
+        // Dynamic Z-Index simulation via re-ordering if needed, but here we just use opacity or brightness
+        if (dist < maxDist) {
+          item.el.setAttribute('opacity', 1);
+          // item.el.style.filter = `brightness(${1 + (1 - dist/maxDist) * 0.2})`;
+        } else {
+          item.el.setAttribute('opacity', 0.95);
+        }
+      });
+
+      requestAnimationFrame(update);
+    }
+
+    requestAnimationFrame(update);
+  </script>
+</body>
+</html>

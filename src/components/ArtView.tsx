@@ -1,14 +1,25 @@
 import type { PortfolioItem } from "../types/gallery";
 
 export function ArtView({ data }: { data: PortfolioItem }) {
+  const isHtml = data.leftImageSrc.endsWith(".html");
+
   return (
     <div className="relative flex flex-col h-full bg-zinc-950 overflow-hidden">
       <div className="absolute inset-0 w-full h-full flex items-center justify-center">
-        <img
-          src={data.leftImageSrc}
-          alt={data.leftImageAlt}
-          className="w-full h-full object-cover"
-        />
+        {isHtml ? (
+          <iframe
+            src={data.leftImageSrc}
+            title={data.leftImageAlt}
+            className="w-full h-full border-0 pointer-events-auto"
+            sandbox="allow-scripts allow-same-origin"
+          />
+        ) : (
+          <img
+            src={data.leftImageSrc}
+            alt={data.leftImageAlt}
+            className="w-full h-full object-cover"
+          />
+        )}
       </div>
       
       {/* Content over glass */}

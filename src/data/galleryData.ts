@@ -45,5 +45,14 @@ export const portfolioData: PortfolioItem[] = [
     descriptionTitle: "Animated Beat Tape Tracklist",
     descriptionText: "A kinetic typography experiment for music releases. Features a sequential entrance system, scramble-load timestamps, and an integrated dark mode, all wrapped in a high-contrast brutalist aesthetic.",
     technologies: ["React", "SVG", "Framer Motion", "Oswald"],
+  },
+  {
+    id: "modern-grafiken-2",
+    projectTitle: "Modern Grafiken 2",
+    leftImageSrc: "/modern_grafiken_2.html",
+    leftImageAlt: "Modern Grafiken 2 Interactive Prototype",
+    descriptionTitle: "Max Bill - Grafiken Interactive",
+    descriptionText: "Modern motion interaction of Max Bill's grafiken poster, translating his grid of colored squares into an interactive SVG with proximity-based scaling, elastic motion, and a clean, cinematic layout.",
+    technologies: ["HTML", "SVG", "Vanilla JS", "CSS Physics"],
   }
 ];
