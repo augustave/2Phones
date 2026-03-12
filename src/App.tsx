@@ -86,6 +86,7 @@ export default function App() {
           const isBookshelf = item.id === "3books";
           const isPaperX = item.id === "paper-x";
           const isTracklist = item.id === "tracklist";
+          const isModernGrafiken = item.id === "modern-grafiken-2";
           
           let translateX = "0%";
           let opacity = 0;
@@ -107,6 +108,28 @@ export default function App() {
             translateX = "30%";
             opacity = 0;
             zIndex = 10;
+          }
+
+          if (isModernGrafiken) {
+            return (
+              <div
+                key={item.id}
+                className="absolute inset-0 transition-opacity duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                style={{
+                  opacity: isLoaded ? opacity : 0,
+                  zIndex,
+                  pointerEvents,
+                  visibility: opacity > 0 ? "visible" : "hidden",
+                }}
+              >
+                <iframe
+                  src="/modern_grafiken_2.html"
+                  title="Modern Grafiken 2"
+                  className="w-full h-full border-0"
+                  sandbox="allow-scripts allow-same-origin"
+                />
+              </div>
+            );
           }
 
           if (isTracklist) {
