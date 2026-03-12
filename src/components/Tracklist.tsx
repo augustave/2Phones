@@ -197,7 +197,18 @@ export function Tracklist({ isActive = true }: { isActive?: boolean }) {
   );
 }
 
-function TitleRow({ colors, visible }: { colors: any, visible: boolean }) {
+
+interface TrackColors {
+  bg: string;
+  grid: string;
+  block: string;
+  text: string;
+  highlight: string;
+  muted: string;
+}
+
+function TitleRow({ colors, visible }: { colors: TrackColors, visible: boolean }) {
+
   return (
     <motion.g
       initial={{ opacity: 0 }}
@@ -227,7 +238,7 @@ function TitleRow({ colors, visible }: { colors: any, visible: boolean }) {
   );
 }
 
-function TrackRow({ data, colors, index, phase, isEmphasized }: { data: TrackData, colors: any, index: number, phase: string, isEmphasized: boolean }) {
+function TrackRow({ data, colors, index, phase, isEmphasized }: { data: TrackData, colors: TrackColors, index: number, phase: string, isEmphasized: boolean }) {
   const [displayText, setDisplayText] = useState(data.text);
   const [flipY, setFlipY] = useState(0);
   const visible = phase !== 'exit';

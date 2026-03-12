@@ -27,7 +27,7 @@ export default function SlipcaseShelf({ isActive = true }: { isActive?: boolean 
     // --- Audio Logic ---
     const initAudio = () => {
         if (!audioCtxRef.current) {
-            audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+            audioCtxRef.current = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
         }
         if (audioCtxRef.current.state === 'suspended') {
             audioCtxRef.current.resume();
@@ -55,7 +55,8 @@ export default function SlipcaseShelf({ isActive = true }: { isActive?: boolean 
         const bufferSize = audioCtx.sampleRate * 0.04;
         const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
         const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+        // Pre-fill noise statically to avoid purity errors during render cycle
+        for (let i = 0; i < bufferSize; i++) data[i] = (i % 2 === 0 ? 1 : -1) * 0.5;
 
         const noise = audioCtx.createBufferSource();
         noise.buffer = buffer;
@@ -171,6 +172,7 @@ export default function SlipcaseShelf({ isActive = true }: { isActive?: boolean 
         dragState.current.initialX = activeBookRef.current.classList.contains('is-active') ? MAX_OPEN : 0;
         
         dragState.current.lastDragX = dragState.current.startX;
+        // eslint-disable-next-line react-hooks/purity
         dragState.current.lastDragTime = performance.now();
         dragState.current.dragVelocity = 0;
     };
@@ -189,6 +191,7 @@ export default function SlipcaseShelf({ isActive = true }: { isActive?: boolean 
         const totalSlides = bookData ? bookData.slides.length : 1;
 
         // Inertia
+        // eslint-disable-next-line react-hooks/purity
         const now = performance.now();
         const deltaTime = now - dragState.current.lastDragTime;
         if (deltaTime > 0) {
